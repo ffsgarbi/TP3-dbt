@@ -1,6 +1,5 @@
 {{ config(
-    materialized  = 'incremental',
-    unique_key    = 'order_id',
+    materialized  = 'table',
     dist          = 'order_id',
     sort          = 'dt_compra'
 ) }}
@@ -24,13 +23,11 @@ joined as (
         o.mes,
         oi.preco,
         oi.valor_frete,
-        coalesce(oi.preco, 0) + coalesce(oi.valor_frete, 0) as valor_total
+        coalesce(oi.preco, 0) + coalesce(oi.valor_frete, 0)            as valor_total,
+        {{ converter_brl_para_usd('coalesce(oi.preco, 0) + coalesce(oi.valor_frete, 0)') }} as valor_total_usd,
+        {{ limpar_texto('o.status') }}                                  as status_padronizado
     from order_items oi
     inner join orders o on oi.order_id = o.order_id
 )
 
 select * from joined
-
-{% if is_incremental() %}
-    where dt_compra > (select max(dt_compra) from {{ this }})
-{% endif %}
