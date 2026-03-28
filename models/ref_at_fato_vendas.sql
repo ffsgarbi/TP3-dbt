@@ -24,7 +24,7 @@ joined as (
         oi.preco,
         oi.valor_frete,
         coalesce(oi.preco, 0) + coalesce(oi.valor_frete, 0)            as valor_total,
-        {{ converter_brl_usd('coalesce(oi.preco, 0) + coalesce(oi.valor_frete, 0)') }} as valor_total_usd,
+        {{ real_to_dolar('coalesce(oi.preco, 0) + coalesce(oi.valor_frete, 0)') }} as valor_total_usd,
         {{ limpar_texto('o.status') }}                                  as status_padronizado
     from order_items oi
     inner join orders o on oi.order_id = o.order_id
