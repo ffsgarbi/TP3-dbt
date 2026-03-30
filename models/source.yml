@@ -1,0 +1,71 @@
+version: 2
+
+sources:
+  - name: olist
+    database: dev
+    schema: public
+    tables:
+      - name: olist_customers
+      - name: olist_order_items
+      - name: olist_orders
+      - name: olist_products
+
+models:
+  - name: ref_at_fato_vendas
+    description: "Tabela de fatos com os itens de pedidos da CloudMart"
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+      - name: product_id
+        tests:
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: preco
+        tests:
+          - not_null
+      - name: valor_total
+        tests:
+          - not_null
+
+  - name: ref_at_dim_cliente
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+
+  - name: ref_at_dim_produto
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+
+  - name: ref_at_dim_status
+    columns:
+      - name: status_id
+        tests:
+          - unique
+          - not_null
+      - name: order_status
+        tests:
+          - not_null
+
+  - name: ref_at_dim_tempo
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+      - name: dt_compra
+        tests:
+          - not_null
+
+  - name: ref_at_dim_localizacao
+    columns:
+      - name: location_id
+        tests:
+          - unique
+          - not_null
