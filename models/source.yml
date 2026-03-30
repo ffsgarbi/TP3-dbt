@@ -6,66 +6,93 @@ sources:
     schema: public
     tables:
       - name: olist_customers
+        description: Tabela com dados dos clientes
       - name: olist_order_items
+        description: Tabela com os itens dos pedidos
       - name: olist_orders
+        description: Tabela com os pedidos realizados
       - name: olist_products
+        description: Tabela com os produtos
 
 models:
   - name: ref_at_fato_vendas
-    description: "Tabela de fatos com os itens de pedidos da CloudMart"
+    description: Tabela fato contendo os itens de vendas realizados na plataforma CloudMart
     columns:
       - name: order_id
+        description: Identificador do pedido
         tests:
           - not_null
+
       - name: product_id
+        description: Identificador do produto
         tests:
           - not_null
+
       - name: customer_id
+        description: Identificador do cliente
         tests:
           - not_null
+
       - name: preco
+        description: Preço unitário do produto
         tests:
           - not_null
+
       - name: valor_total
+        description: Valor total do item do pedido
         tests:
           - not_null
 
   - name: ref_at_dim_cliente
+    description: Dimensão com os dados dos clientes
     columns:
       - name: customer_id
+        description: Identificador único do cliente
         tests:
           - unique
           - not_null
 
   - name: ref_at_dim_produto
+    description: Dimensão com os dados dos produtos
     columns:
       - name: product_id
+        description: Identificador único do produto
         tests:
           - unique
           - not_null
 
   - name: ref_at_dim_status
+    description: Dimensão com os status dos pedidos
     columns:
       - name: status_id
+        description: Identificador do status
         tests:
           - unique
           - not_null
+
       - name: order_status
+        description: Status do pedido (aprovado, enviado, entregue, cancelado)
         tests:
           - not_null
 
   - name: ref_at_dim_tempo
+    description: Dimensão temporal dos pedidos
     columns:
       - name: order_id
+        description: Identificador do pedido
         tests:
           - not_null
+
       - name: dt_compra
+        description: Data da compra do pedido
         tests:
           - not_null
 
   - name: ref_at_dim_localizacao
+    description: Dimensão com dados de localização dos clientes
     columns:
       - name: location_id
+        description: Identificador da localização
         tests:
           - unique
           - not_null
