@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: mercamax_raw
+    database: dev
+    schema: public
+    tables:
+      - name: clientes
+      - name: pedidos
+      - name: logs_navegacao
