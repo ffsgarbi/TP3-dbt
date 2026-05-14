@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: mercamax_databricks
+    database: dev
+    schema: raw_databricks
+    tables:
+      - name: pedidos_validados
