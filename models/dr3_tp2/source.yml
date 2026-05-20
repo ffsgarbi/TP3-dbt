@@ -1,0 +1,29 @@
+version: 2
+
+sources:
+  - name: mercamax_raw_dr3
+    database: dev
+    schema: public
+    tables:
+
+      - name: clientes
+        columns:
+          - name: customer_id
+            tests:
+              - not_null
+              - unique
+          - name: segmento
+            tests:
+              - accepted_values_threshold:
+                  accepted_list: ['Bronze', 'Prata', 'Ouro', 'Diamante']
+                  max_violations: 25
+
+      - name: pedidos
+        columns:
+          - name: order_id
+            tests:
+              - not_null
+              - unique
+          - name: customer_id
+            tests:
+              - not_null
