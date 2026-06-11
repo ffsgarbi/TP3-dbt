@@ -2,28 +2,69 @@ version: 2
 
 sources:
   - name: mercamax_raw_dr3
+    description: >
+      Dados brutos do marketplace MercaMax replicados no Redshift, utilizados como
+      camada raw para os testes de qualidade do TP3.
     database: dev
     schema: public
     tables:
 
       - name: clientes
+        description: >
+          Cadastro de clientes do marketplace. Cada linha representa um cliente
+          unico identificado pelo customer_id.
         columns:
           - name: customer_id
+            description: "Identificador unico do cliente (chave primaria). Formato: CUST_XXXXXX."
             tests:
               - not_null
               - unique
+          - name: nome
+            description: "Nome completo do cliente. Dado PII."
+          - name: email
+            description: "Endereco de e-mail principal do cliente. Dado PII."
+          - name: telefone
+            description: "Telefone de contato no formato (DD) NNNNN-NNNN. Dado PII."
+          - name: data_cadastro
+            description: "Data em que o cliente realizou o cadastro na plataforma."
           - name: segmento
+            description: "Segmento comercial do cliente (Bronze, Prata, Ouro, Diamante)."
             tests:
               - accepted_values_threshold:
                   accepted_list: ['Bronze', 'Prata', 'Ouro', 'Diamante']
                   max_violations: 25
+          - name: cidade
+            description: "Cidade de residencia declarada pelo cliente."
+          - name: estado
+            description: "Sigla UF do estado de residencia (SP, RJ, MG etc)."
+          - name: cep
+            description: "CEP de residencia do cliente. Dado PII."
+          - name: ativo
+            description: "Indica se o cliente esta ativo (true) ou inativo (false)."
+          - name: origem_cadastro
+            description: "Canal de cadastro (app, site, indicacao)."
+          - name: data_nascimento
+            description: "Data de nascimento do cliente. Dado PII."
+          - name: genero
+            description: "Genero declarado (M, F, Outro)."
+          - name: total_pedidos
+            description: "Quantidade total de pedidos do cliente."
+          - name: total_gasto
+            description: "Valor total gasto pelo cliente em reais."
+          - name: ultima_compra
+            description: "Data da ultima compra do cliente."
 
       - name: pedidos
+        description: >
+          Transacoes de compra do marketplace. Cada linha e um pedido unico
+          identificado pelo order_id.
         columns:
           - name: order_id
+            description: "Identificador unico do pedido (chave primaria). Formato: ORD_XXXXXXX."
             tests:
               - not_null
               - unique
           - name: customer_id
+            description: "Identificador do cliente que realizou o pedido."
             tests:
               - not_null
